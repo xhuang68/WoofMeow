@@ -30,10 +30,13 @@ class AboutViewController: UIViewController, MFMailComposeViewControllerDelegate
         let firstActivityItem = "Check out this interesting app! WoofMeow! http://xiaohuang.rocks/woofmeow"
         
         let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [firstActivityItem], applicationActivities: nil)
-        
-        activityViewController.popoverPresentationController?.sourceView = shareButton
-        self.presentViewController(activityViewController, animated: true, completion: nil)
-        
+
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+        } else {
+            let popup: UIPopoverController = UIPopoverController(contentViewController: activityViewController)
+            popup.presentPopoverFromRect(CGRectMake(self.view.frame.size.width/2, self.view.frame.size.height - 50, 0, 0), inView: self.view, permittedArrowDirections: .Any, animated: true)
+        }
     }
 
     @IBAction func feedbackButtonTapped(sender: AnyObject) {
